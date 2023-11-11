@@ -6,16 +6,23 @@ def communicate_with_server(filmes_usuario):
     try:
         client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         client_socket.connect(('127.0.0.1', 12345))
+
+        print(f"Enviando mensagem: {filmes_usuario}")
         client_socket.send(filmes_usuario.encode("utf-8"))
+
         response = client_socket.recv(4096)
         recommendations = eval(response.decode("utf-8"))
+
+        print("Mensagem recebida:", recommendations)
         client_socket.close()
+
         return recommendations
     except Exception as e:
         print("[ERRO] Erro na comunicação com o servidor:", e)
         return None
 
 def show_recommendations(entry_text, listbox):
+    print("Usuário clicou em obter recomendações")
     filmes_usuario = entry_text.get()
     filmes_usuario = filmes_usuario.split(',')
 
