@@ -7,11 +7,14 @@ def handle_client(client_socket):
         data = client_socket.recv(1024)
         movies = data.decode("utf-8").split(',')
 
+        print(f"Mensagem recebida: {movies}")
+
         recommendations = {}
         for movie in movies:
             movie = movie.strip()
             recommendations[movie] = movie_recomendation(movie)
-        print("[INFO] Gerando recomendações:", recommendations)
+
+        print("Gerando recomendações:", recommendations)
 
         client_socket.send(str(recommendations).encode("utf-8"))
     except Exception as e:
